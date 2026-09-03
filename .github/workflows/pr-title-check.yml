@@ -1,4 +1,4 @@
-name: PR Title Check
+name: Azure Boards Reference Checks
 
 # Only run when a PR targets devtest -- staging/main promotions are untouched.
 on:
@@ -20,5 +20,20 @@ jobs:
             echo "Found AB# reference. Check passed."
           else
             echo "ERROR: PR title must contain an Azure Boards reference like AB#1234"
+            exit 1
+          fi
+
+  check-branch-name:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify branch name starts with an Azure Boards reference (AB#1234-...)
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          echo "Branch name: $HEAD_REF"
+          if [[ "$HEAD_REF" =~ ^AB#[0-9]+- ]]; then
+            echo "Branch name matches required pattern. Check passed."
+          else
+            echo "ERROR: branch name must start with an Azure Boards reference, e.g. AB#1234-short-description"
             exit 1
           fi
