@@ -1,0 +1,24 @@
+name: PR Title Check
+
+# Only run when a PR targets devtest -- staging/main promotions are untouched.
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+    branches:
+      - devtest
+
+jobs:
+  check-title:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify PR title contains an Azure Boards reference (AB#1234)
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          echo "PR title: $PR_TITLE"
+          if [[ "$PR_TITLE" =~ AB#[0-9]+ ]]; then
+            echo "Found AB# reference. Check passed."
+          else
+            echo "ERROR: PR title must contain an Azure Boards reference like AB#1234"
+            exit 1
+          fi
