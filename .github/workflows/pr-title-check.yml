@@ -26,14 +26,14 @@ jobs:
   check-branch-name:
     runs-on: ubuntu-latest
     steps:
-      - name: Verify branch name starts with an Azure Boards reference (AB#1234-...)
+      - name: Verify branch name starts with an Azure Boards reference (AB#1234)
         env:
           HEAD_REF: ${{ github.head_ref }}
         run: |
           echo "Branch name: $HEAD_REF"
-          if [[ "$HEAD_REF" =~ ^AB#[0-9]+- ]]; then
+          if [[ "$HEAD_REF" =~ ^AB#[0-9]+ ]]; then
             echo "Branch name matches required pattern. Check passed."
           else
-            echo "ERROR: branch name must start with an Azure Boards reference, e.g. AB#1234-short-description"
+            echo "ERROR: branch name must start with an Azure Boards reference, e.g. AB#1234-short-description or AB#1234_anything"
             exit 1
           fi
