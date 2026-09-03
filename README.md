@@ -6,3 +6,5 @@ scoped to the `devtest` branch only.
 
 ## Sample change
 This line was added to test the PR title check.
+
+Testing branch name check with an intentionally wrong branch name.
